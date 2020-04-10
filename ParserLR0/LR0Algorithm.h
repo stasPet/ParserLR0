@@ -30,8 +30,7 @@ private:
     private:
         ReduceType rt;              // reduction type
         const std::size_t rs = 3;   // reduction size
-
-        LR0Algorithm & lra;           // holder
+        LR0Algorithm & lra;         // holder
 
     public:
         ReduceCommand(ReduceType t, LR0Algorithm & r) :
