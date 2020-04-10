@@ -1,13 +1,50 @@
-#include "ShiftCommand.h"
-#include "ReduceCommand.h"
+#include <cstddef>
+
+#include <queue>
+#include <stack>
+
+#include "Command.h"
+#include "Node.h"
+
+#include <iostream>
 
 class LR0Algorithm
 {
+private:
+    class ShiftCommand : public Command
+    {
+    private:
+        State st;   
+        LR0Algorithm & lra;     // holder
+        bool nf;                // next flag
+
+    public:
+        ShiftCommand(State s, LR0Algorithm & r, bool f = false) :
+            st{s}, lra{r}, nf{f} {}
+
+        virtual void Execute() override;
+    };
+
+    class ReduceCommand : public Command
+    {
+    private:
+        ReduceType rt;              // reduction type
+        const std::size_t rs = 3;   // reduction size
+
+        LR0Algorithm & lra;           // holder
+
+    public:
+        ReduceCommand(ReduceType t, LR0Algorithm & r) :
+            rt{t}, lra{r} {}
+
+        virtual void Execute() override;
+    };
+
 public:
     LR0Algorithm()
     {
         ss.push(State::Start);
-        tb = fl.front();
+        tb = qt.front();
   
         Command * currentCommand = actionTable[ss.top() ][tb];
 
@@ -19,7 +56,7 @@ public:
     }
 
 private:
-    std::queue<Token> fl
+    std::queue<Token> qt
     {
         {LP, n, Plus, n, RP, Plus, n, Plus, LP, n, Plus, n, RP, End}
     };
@@ -30,21 +67,21 @@ private:
 
     Token tb;
 
-    ShiftCommand ss1{State::s1, fl, ss, st, tb};
-    ShiftCommand ss2{State::s2, fl, ss, st, tb};
-    ShiftCommand ss6{State::s6, fl, ss, st, tb};
-    ShiftCommand ss7{State::s7, fl, ss, st, tb};
+    ShiftCommand ss1{State::s1, *this};
+    ShiftCommand ss2{State::s2, *this};
+    ShiftCommand ss6{State::s6, *this};
+    ShiftCommand ss7{State::s7, *this};
 
-    ShiftCommand ss3{State::s3, fl, ss, st, tb, true};
-    ShiftCommand ss4{State::s4, fl, ss, st, tb, true};
-    ShiftCommand ss5{State::s5, fl, ss, st, tb, true};
-    ShiftCommand ss8{State::s8, fl, ss, st, tb, true};
+    ShiftCommand ss3{State::s3, *this, true};
+    ShiftCommand ss4{State::s4, *this, true};
+    ShiftCommand ss5{State::s5, *this, true};
+    ShiftCommand ss8{State::s8, *this, true};
 
-    ReduceCommand rr0{ReduceType::r0, ss, st, sn, tb};
-    ReduceCommand rr1{ReduceType::r1, ss, st, sn, tb};
-    ReduceCommand rr2{ReduceType::r2, ss, st, sn, tb};
-    ReduceCommand rr3{ReduceType::r3, ss, st, sn, tb};
-    ReduceCommand rr4{ReduceType::r4, ss, st, sn, tb};
+    ReduceCommand rr0{ReduceType::r0, *this};
+    ReduceCommand rr1{ReduceType::r1, *this};
+    ReduceCommand rr2{ReduceType::r2, *this};
+    ReduceCommand rr3{ReduceType::r3, *this};
+    ReduceCommand rr4{ReduceType::r4, *this};
 
     Command * actionTable[9][7]
     {

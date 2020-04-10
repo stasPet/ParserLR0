@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LR0Algorithm.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -144,8 +145,6 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="LR0Algorithm.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="ReduceCommand.h" />
-    <ClInclude Include="ShiftCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
