@@ -4,7 +4,7 @@
 #include <stack>
 
 #include "Command.h"
-#include "Enums.h"
+#include "Node.h"
 
 #include <iostream>
 
@@ -16,6 +16,7 @@ private:
 
     std::stack<State> & ssr;    // stack state referance
     std::stack<Token> & str;    // stack token referance
+    std::stack<Node *> & snr;   // stack token referance
 
     Token & tbr;                // token buffer referance
 
@@ -23,10 +24,12 @@ public:
     ReduceCommand(ReduceType t, 
                   std::stack<State> & ss,
                   std::stack<Token> & st,
+                  std::stack<Node *> & sn,
                   Token & tb) : 
                                 rt{t},
                                 ssr{ss},
                                 str{st},
+                                snr{sn},
                                 tbr{tb} {}
 
     virtual void Execute() override
@@ -42,6 +45,17 @@ public:
             case r1:
             {
                 // E -> E + T
+
+                Node * t = new Node{Plus};
+
+                t->rn = snr.top();
+                snr.pop();
+
+                t->ln = snr.top();
+                snr.pop();
+
+                snr.push(t);
+
                 for (std::size_t i = 0; i < rs; ++i)
                 {
                     ssr.pop();
@@ -63,6 +77,8 @@ public:
             case r3:
             {
                 // T -> n
+                snr.push(new Node{n} );
+
                 ssr.pop();
                 str.pop();
 

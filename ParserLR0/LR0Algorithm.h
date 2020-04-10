@@ -9,10 +9,12 @@ public:
         ss.push(State::Start);
         tb = fl.front();
   
-        while (true)
+        Command * currentCommand = actionTable[ss.top() ][tb];
+
+        while (currentCommand != &rr0)
         {
-            Command * currentCommand = actionTable[ss.top() ][tb];
             currentCommand->Execute();
+            currentCommand = actionTable[ss.top() ][tb];
         }
     }
 
@@ -24,6 +26,7 @@ private:
 
     std::stack<State> ss;
     std::stack<Token> st;
+    std::stack<Node *> sn;
 
     Token tb;
 
@@ -37,11 +40,11 @@ private:
     ShiftCommand ss5{State::s5, fl, ss, st, tb, true};
     ShiftCommand ss8{State::s8, fl, ss, st, tb, true};
 
-    ReduceCommand rr0{ReduceType::r0, ss, st, tb};
-    ReduceCommand rr1{ReduceType::r1, ss, st, tb};
-    ReduceCommand rr2{ReduceType::r2, ss, st, tb};
-    ReduceCommand rr3{ReduceType::r3, ss, st, tb};
-    ReduceCommand rr4{ReduceType::r4, ss, st, tb};
+    ReduceCommand rr0{ReduceType::r0, ss, st, sn, tb};
+    ReduceCommand rr1{ReduceType::r1, ss, st, sn, tb};
+    ReduceCommand rr2{ReduceType::r2, ss, st, sn, tb};
+    ReduceCommand rr3{ReduceType::r3, ss, st, sn, tb};
+    ReduceCommand rr4{ReduceType::r4, ss, st, sn, tb};
 
     Command * actionTable[9][7]
     {
