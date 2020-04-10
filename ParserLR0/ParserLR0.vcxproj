@@ -139,6 +139,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="LR0Algorithm.h" />
+    <ClInclude Include="ReduceCommand.h" />
+    <ClInclude Include="ShiftCommand.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
