@@ -16,7 +16,7 @@ private:
 
     std::stack<State> & ssr;    // stack state referance
     std::stack<Token> & str;    // stack token referance
-    std::stack<Node *> & snr;   // stack token referance
+    std::stack<Node *> & snr;   // stack node referance
 
     Token & tbr;                // token buffer referance
 
