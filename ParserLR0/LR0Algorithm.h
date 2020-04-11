@@ -8,6 +8,14 @@
 
 #include <iostream>
 
+/*  no.| production
+    1. | E0 -> E
+    2. | E  -> E + T
+    3. | E  -> T
+    4. | T  -> n
+    5. | T  -> (E)
+*/
+
 class LR0Algorithm
 {
 private:
@@ -45,12 +53,12 @@ public:
         ss.push(State::Start);
         tb = qt.front();
   
-        Command * currentCommand = actionTable[ss.top() ][tb];
+        Command * currentCommand = commandTable[ss.top() ][tb];
 
         while (currentCommand != &rr0)
         {
             currentCommand->Execute();
-            currentCommand = actionTable[ss.top() ][tb];
+            currentCommand = commandTable[ss.top() ][tb];
         }
     }
 
@@ -76,13 +84,13 @@ private:
     ShiftCommand ss5{State::s5, *this, true};
     ShiftCommand ss8{State::s8, *this, true};
 
-    ReduceCommand rr0{ReduceType::r0, *this};
-    ReduceCommand rr1{ReduceType::r1, *this};
-    ReduceCommand rr2{ReduceType::r2, *this};
-    ReduceCommand rr3{ReduceType::r3, *this};
-    ReduceCommand rr4{ReduceType::r4, *this};
+    ReduceCommand rr0{ReduceType::r0, *this};   // E0 -> E
+    ReduceCommand rr1{ReduceType::r1, *this};   // E  -> E + T
+    ReduceCommand rr2{ReduceType::r2, *this};   // E  -> T
+    ReduceCommand rr3{ReduceType::r3, *this};   // T  -> n
+    ReduceCommand rr4{ReduceType::r4, *this};   // T  -> (E)
 
-    Command * actionTable[9][7]
+    Command * commandTable[9][7]
     {
         //   E       T       n       Plus    LP      RP      End
  /*Start*/ { {&ss1}, {&ss2}, {&ss3}, {},     {&ss4}, {},     {},     },
